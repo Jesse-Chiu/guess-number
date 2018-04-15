@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Guess Number</title>
 </head>
 <body>
@@ -38,6 +40,11 @@
             display: none;
             margin: 10px auto;
         }
+        @media (max-width: 576px) {
+            #confirm{
+                margin-top: 5px;
+            }
+        }
     </style>
 </body>
 <div class="container">
@@ -46,30 +53,30 @@
         <h4>Please enter 1 - 100 number</h4>
     </div>
     <div class="body">
-        <label>请输入数字: </label><input type="number" id="inputNum" min="0" max="100" name="" />
-        <button id="confirm">确 认</button>
+        <label >Please Enter Number: </label><input type="number" id="inputNum" min="0" max="100" name="" />
+        <button id="confirm">Confrim</button>
         <hr>
         <div class="result" id="result">
             
         </div>
-        <button class="restart" id="restart">再来一次</button>
+        <button class="restart" id="restart">Play Again</button>
     </div>
 
     <script type="text/javascript">
         window.onload = ()=>{
+            // 页面加载时生成 5 位随机数
             let guessNum = generatorNum(5);
-            
             let confirmEle = document.getElementById('confirm');
             let inputNumEle = document.getElementById('inputNum');
             let resultEle = document.getElementById('result');
             let restartEle = document.getElementById('restart');
             let guessTimes = 0;
 
-            // 绑定按键事件
+            // 绑定确认按键事件
             confirmEle.addEventListener('click',()=>{
                 checkNum();
             })
-            // 重新开始
+            // 绑定重新开始按键事件
             restartEle.addEventListener('click',()=>{
                 guessTimes = 0;
                 inputNumEle.value = '';
@@ -78,7 +85,7 @@
                 result.innerHTML = '';
                 restartEle.style = 'display:none';
             })
-            // 绑定回车事件
+            // 绑定键盘回车事件
             document.addEventListener('keyup',(event)=>{
                 if(event.keyCode === 13){
                     checkNum();
@@ -91,6 +98,7 @@
              * @return {[type]}     [description]
              */
             function generatorNum(num){
+                // 使用了 es6 set，确保存储的随机数不重复
                 let result = new Set();
                 while(true){
                     if(result.size >= num) break;
@@ -110,8 +118,8 @@
                 return;
               }
               if(guessNum.includes(Number(inputNumEle.value))){
-                result.innerHTML = `<h3>幸运数字: ${JSON.stringify(guessNum)}</h3>
-                <h4>恭喜你在经过 ${guessTimes} 次努力后，终于猜对了</h4>`
+                result.innerHTML = `<h3>Lucky Number: ${JSON.stringify(guessNum)}</h3>
+                <h4>Congratulations.After ${guessTimes} attempts,you got it!</h4>`
                 restartEle.style = 'display:block';
                 console.log(`恭喜你在经过 ${guessTimes} 次努力后，终于猜对了`);
               }else{
